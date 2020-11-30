@@ -4,7 +4,7 @@ Partial scrubbing for btrfs filesystems
 Scrubbing big btrfs filesystems can take a long time.
 Also, in case of restart, scrubbing will not continue.
 
-Here is an attempt to create a daily/hourly executed script that will start/resume btrfs scrubbing based on specified criteria.
+Here is an attempt to create a **daily**/hourly executed script that will start/resume btrfs scrubbing based on specified criteria.
 
 ## These are:
 
@@ -45,7 +45,7 @@ If the program finishes on Sunday and the frequency -f is weekly, then scrub wil
 
 The calculation is this: if (now div frequency) - ((last action) div frequency) > 0 then start over scrub.
 
-Do not use very low `-p`, in order to make sure that the scrub can finish within `-f` period!
+**Do not use very low `-p`, in order to make sure that the scrub can finish within `-f` period!**
 
 ## raid56:
 
