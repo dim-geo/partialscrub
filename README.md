@@ -6,19 +6,23 @@ Also, in case of restart, scrubbing will not continue.
 
 Here is an attempt to create a **daily**/hourly executed script that will start/resume btrfs scrubbing based on specified criteria.
 
-## These are:
+## Criteria that control the partial scrub:
 
-* `(-p number)` specify the percentage of data that you want to scrub on every execution. Default 100% (scrub everything)
+* `(-p number)`: specify the percentage of data that you want to scrub on every execution. Default 100% (scrub everything)
 
 * In case we want to ensure that scrub will continue even after restart, we have to execute the script hourly/daily.
 In that case, maybe we want to scrub once a month/week but not every day.
 `(-f frequency)` solves that problem by specifying after how many seconds the program will start over a finished scrub.
 Default value (monthly): 2629744 (average tropical month in seconds)
 
-* `(-d)` scrub devices of filesystem individually. Useful in raid56 where scrubbing must happen be executed per device, see below.
+* `(-d)`: scrub devices of filesystem individually. Useful in raid56 where scrubbing must happen be executed per device, see below.
 
-When the program is called, it will always resume scrubbing, until it's `-p` criteria is fulfilled.
-When the program stops, scrubbing will be aborted (if running) and status of scrub will be printed.
+## General Notes:
+
+* Ideal scenario is to run daily, even when you want to commplete scrub within one go. Daily execution will makse sure that scrub will finish regardless of restarts/shutdown/downtime.
+
+* **When the program is called, it will always resume scrubbing, until it's `-p` criteria is fulfilled.**
+* When the program stops, scrubbing will be aborted (if running) and status of scrub will be printed.
 
 ## Common use cases:
 
