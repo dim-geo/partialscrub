@@ -23,6 +23,9 @@ Default value (monthly): 2629744 (average tropical month in seconds)
 
 * **When the program is called, it will always resume scrubbing, until it's `-p` criteria is fulfilled.**
 * When the program stops, scrubbing will be aborted (if running) and status of scrub will be printed.
+* The scrub will run with `-c 3` in order to minimize impact of scrub
+* Script will run only one instance at a time iin order to minimize impact of scrub. The instances that were started later, will wait until the first instance is finished. `flock` is used to ensure that.
+* GNU/date utility is required, busybox `date` is not enough.
 
 ## Common use cases:
 
