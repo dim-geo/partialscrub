@@ -219,6 +219,12 @@ current_position () {
   echo "$position"
 }
 
+current_status (){
+  local status=""
+  status=$(btrfs scrub status "$_arg_device" | grep Status: | awk '{print $2}')
+  echo "$status"
+}
+
 #make sure that the program is scrubbing only one filesystem at a time
 
 LCK="/tmp/btrfs.tmp"
@@ -318,7 +324,7 @@ fi
 sleep 6
 current_position="$(current_position "$_arg_device")"
 
-while [ "$current_position" -lt "$limit" ] && [ $( btrfs scrub status "$_arg_device" | grep Status: | awk '{print $2}' ) != 'finished'  ]
+while [ "$current_position" -lt "$limit" ] && [ "$(current_status "$_arg_device")" != 'finished'  ]
 do
   sleep 6
   current_position="$(current_position "$_arg_device")"
