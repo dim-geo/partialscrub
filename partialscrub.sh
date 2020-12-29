@@ -211,6 +211,20 @@ active_device () {
   echo "$active_device"
 }
 
+current_position () {
+  local position=$(btrfs scrub status -R "$1" | grep data_bytes_scrubbed | awk '{print $2}')
+  if [ "$position" = "" ]; then
+    position=0
+  fi
+  echo "$position"
+}
+
+current_status (){
+  local status=""
+  status=$(btrfs scrub status "$_arg_device" | grep Status: | awk '{print $2}')
+  echo "$status"
+}
+
 #make sure that the program is scrubbing only one filesystem at a time
 
 LCK="/tmp/btrfs.tmp"
@@ -308,12 +322,12 @@ fi
 #scrub statistics are updated every 5 seconds so sleep and check position periodically
 
 sleep 6
-current_position=$( btrfs scrub status -R "$_arg_device" | grep data_bytes_scrubbed | awk '{print $2}' )
+current_position="$(current_position "$_arg_device")"
 
-while [ "$current_position" -lt "$limit" ] && [ $( btrfs scrub status "$_arg_device" | grep Status: | awk '{print $2}' ) != 'finished'  ]
+while [ "$current_position" -lt "$limit" ] && [ "$(current_status "$_arg_device")" != 'finished'  ]
 do
   sleep 6
-  current_position=$( btrfs scrub status -R "$_arg_device" | grep data_bytes_scrubbed | awk '{print $2}' )
+  current_position="$(current_position "$_arg_device")"
   #echo "Current Position:$current_position"
 done
 
