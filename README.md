@@ -1,6 +1,8 @@
 # partialscrub
 Partial scrubbing for btrfs filesystems
 
+This repo will not be maintained, switch to https://github.com/dim-geo/btrfs-scrub-manager which uses scrub limit to achieve the same result.
+
 Scrubbing big btrfs filesystems can take a long time.
 Also, in case of restart, scrubbing will not continue.
 
